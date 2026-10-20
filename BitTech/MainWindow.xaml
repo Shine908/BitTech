@@ -1,0 +1,92 @@
+﻿<Window x:Class="BitTech.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="BitTech - Каталог" 
+        Height="600" Width="800" 
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Верхняя панель -->
+        <Border Grid.Row="0" BorderBrush="#EEE" BorderThickness="0,0,0,1" Padding="0,0,0,10" Margin="0,0,0,10">
+            <Grid>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock x:Name="lblStatus" FontStyle="Italic" Foreground="Gray" FontSize="13" Margin="0,0,0,8"/>
+
+                    <StackPanel x:Name="pnlControls" Orientation="Horizontal">
+                        <TextBox x:Name="txtSearch" Width="200" Padding="6" Margin="0,0,10,0" TextChanged="TxtSearch_TextChanged"/>
+                        <ComboBox x:Name="cmbCategory" Width="150" Margin="0,0,10,0" SelectionChanged="CmbCategory_SelectionChanged"/>
+
+                        <Rectangle Width="1" Fill="Gray" Margin="10,0" VerticalAlignment="Stretch"/>
+
+                        <Button x:Name="btnManageProducts" Content="⚙️ Управление" Click="BtnManageProducts_Click" Background="#607D8B" Foreground="White" Padding="8,4" Margin="0,0,10,0" Visibility="Collapsed"/>
+                        <Button Content="🛒 Корзина" Click="BtnCart_Click" Background="#4CAF50" Foreground="White" Padding="8,4"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <Button Content="🚪 Выход" Click="BtnLogout_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,25,0,0" Width="90" Height="30" Background="#F44336" Foreground="White" FontSize="12" Padding="0"/>
+            </Grid>
+        </Border>
+
+        <!-- Таблица товаров (КОМПАКТНАЯ) -->
+        <DataGrid x:Name="lvProducts" Grid.Row="1" 
+                  AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False"
+                  CanUserResizeRows="False" SelectionMode="Single" HeadersVisibility="Column" RowHeaderWidth="0"
+                  GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#EEE" Background="White"
+                  
+                  RowHeight="100" FontSize="14" MaxWidth="750" HorizontalAlignment="Left"
+                  MouseDoubleClick="LvProducts_MouseDoubleClick" Margin="0,10,0,0">
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Фото" Width="90" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Image}" Width="70" Height="70" Stretch="Uniform" Margin="5"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="300">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Padding" Value="5,0"/>
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Кол-во" Binding="{Binding Quantity}" Width="70">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTemplateColumn Header="Цена" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Price, StringFormat={}{0:N0} ₽}" FontWeight="Bold" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Right" Padding="0,0,10,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="Black"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding HasDiscount}" Value="True">
+                                                <Setter Property="Foreground" Value="Red"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

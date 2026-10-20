@@ -1,0 +1,106 @@
+﻿<Window x:Class="BitTech.AdminPanelWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Панель администратора - Управление товарами" 
+        Height="650" Width="900" 
+        WindowStartupLocation="CenterScreen"
+        MinWidth="800" MinHeight="600">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Панель кнопок -->
+            <RowDefinition Height="*"/>
+            <!-- Таблица товаров -->
+            <RowDefinition Height="Auto"/>
+            <!-- Статусная строка -->
+        </Grid.RowDefinitions>
+
+        <!-- Верхняя панель с кнопками действий -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,15">
+            <Button Content="➕ Добавить товар" Click="BtnAdd_Click" 
+                    Background="#4CAF50" Foreground="White" FontSize="14" Padding="12,6" Margin="0,0,10,0"/>
+
+            <Button Content="✏️ Редактировать" Click="BtnEdit_Click" 
+                    Background="#2196F3" Foreground="White" FontSize="14" Padding="12,6" Margin="0,0,10,0"/>
+
+            <Button Content="🗑️ Удалить" Click="BtnDelete_Click" 
+                    Background="#F44336" Foreground="White" FontSize="14" Padding="12,6"/>
+        </StackPanel>
+
+        <!-- Таблица со списком всех товаров -->
+        <DataGrid x:Name="dgProducts" Grid.Row="1" 
+                  AutoGenerateColumns="False" 
+                  IsReadOnly="True" 
+                  CanUserAddRows="False" 
+                  CanUserDeleteRows="False"
+                  SelectionMode="Single"
+                  AlternatingRowBackground="#F9F9F9"
+                  GridLinesVisibility="Horizontal"
+                  HorizontalGridLinesBrush="#E0E0E0"
+                  RowHeaderWidth="0"
+                  MouseDoubleClick="DgProducts_MouseDoubleClick">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="60" IsReadOnly="True"/>
+
+                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*" MinWidth="200"/>
+
+                <DataGridTextColumn Header="Категория" Binding="{Binding Category}" Width="130"/>
+
+                <DataGridTextColumn Header="Производитель" Binding="{Binding Producer}" Width="130"/>
+
+                <DataGridTextColumn Header="Остаток" Binding="{Binding Quantity}" Width="80">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <!-- Подсветка дефицита: 0 - красный, 1-5 - оранжевый -->
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Quantity}" Value="0">
+                                    <Setter Property="Foreground" Value="Red"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Quantity}" Value="1">
+                                    <Setter Property="Foreground" Value="Orange"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Quantity}" Value="2">
+                                    <Setter Property="Foreground" Value="Orange"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Quantity}" Value="3">
+                                    <Setter Property="Foreground" Value="Orange"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Quantity}" Value="4">
+                                    <Setter Property="Foreground" Value="Orange"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Quantity}" Value="5">
+                                    <Setter Property="Foreground" Value="Orange"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Цена" Binding="{Binding OriginalPrice, StringFormat={}{0:N0} ₽}" Width="100">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Подсказка внизу -->
+        <TextBlock Grid.Row="2" 
+                   Text=" Дважды кликните по строке для быстрого редактирования товара" 
+                   FontStyle="Italic" 
+                   Foreground="#757575" 
+                   Margin="0,15,0,0"
+                   HorizontalAlignment="Center"/>
+    </Grid>
+</Window>
