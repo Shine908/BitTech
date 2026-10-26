@@ -64,28 +64,7 @@ namespace BitTech
             catch (Exception ex) { MessageBox.Show("Ошибка загрузки корзины: " + ex.Message); }
         }
 
-        private void BtnUpdate_Click(object s, RoutedEventArgs e)
-        {
-            if (dgCart.SelectedItem is DataRowView row)
-            {
-                int posId = Convert.ToInt32(row["ID_TovarnayaPoziciya"]);
-                int newQty = Convert.ToInt32(row["Kolichestvo"]);
-                if (newQty <= 0) { MessageBox.Show("Количество должно быть > 0"); return; }
-
-                try
-                {
-                    using var conn = new SqlConnection(ConnStr);
-                    conn.Open();
-                    var cmd = new SqlCommand("UPDATE TovarnayaPoziciya SET Kolichestvo = @q WHERE ID_TovarnayaPoziciya = @id", conn);
-                    cmd.Parameters.AddWithValue("@q", newQty);
-                    cmd.Parameters.AddWithValue("@id", posId);
-                    cmd.ExecuteNonQuery();
-                    LoadCart();
-                }
-                catch (Exception ex) { MessageBox.Show("Ошибка обновления: " + ex.Message); }
-            }
-        }
-
+       
         private void BtnDelete_Click(object s, RoutedEventArgs e)
         {
             if (dgCart.SelectedItem is DataRowView row &&
