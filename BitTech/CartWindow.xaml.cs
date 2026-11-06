@@ -83,7 +83,7 @@ namespace BitTech
                 catch (Exception ex) { MessageBox.Show("Ошибка удаления: " + ex.Message); }
             }
         }
-
+        //оформление заказа
         private void BtnOrder_Click(object s, RoutedEventArgs e)
         {
             if (_dtCart.Rows.Count == 0) { MessageBox.Show("Корзина пуста!"); return; }
